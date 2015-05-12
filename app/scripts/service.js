@@ -10,10 +10,6 @@ angular.module('qiaobaoApp')
 
   angular.extend(factory, {
 
-    test: function() {
-      alert(9);
-    },
-
     loadCatgories: function() {
 
       return $http.get(categoriesURI);
@@ -21,7 +17,7 @@ angular.module('qiaobaoApp')
 
     queryFoods: function(params) {
 
-      return $http.post(foodsURI, params);
+      return $http.get(foodsURI, params);
     }
 
   });
