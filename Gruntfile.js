@@ -311,7 +311,7 @@ module.exports = function (grunt) {
         src: [
           '<%= yeoman.dist %>/scripts/{,*/}*.js',
           '<%= yeoman.dist %>/styles/{,*/}*.css',
-          '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+          //'<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
           '<%= yeoman.dist %>/styles/fonts/*'
         ]
       }
@@ -447,8 +447,9 @@ module.exports = function (grunt) {
             '*.{ico,png,txt}',
             '.htaccess',
             '*.html',
+            'mocks/{,*/}*.json',
             'views/{,*/}*.html',
-            'images/{,*/}*.{webp}',
+            'images/**.*',
             'styles/fonts/{,*/}*.*'
           ]
         }, {
@@ -463,9 +464,9 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.dist %>'
         }, {
           expand: true,
-          cwd: './bower_components/materialize/',
-          src: 'bower_components/materialize/fonts/material-design-icons/*',
-          dest: '<%= yeoman.dist %>'
+          cwd:  'bower_components/materialize/',
+          dest: '<%= yeoman.dist %>',
+          src: ['font/material-design-icons/**.*']
         }]
       },
       styles: {
