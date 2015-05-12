@@ -2,10 +2,11 @@
   "name": "qiaobao",
   "version": "0.0.0",
   "dependencies": {
-    "eport": "^0.1.2"
   },
   "repository": {},
   "devDependencies": {
+    "eport": "^0.1.2",
+    "fs-extra": "^0.18.3",
     "grunt": "^0.4.5",
     "grunt-autoprefixer": "^2.0.0",
     "grunt-concurrent": "^1.0.0",

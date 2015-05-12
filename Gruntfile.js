@@ -8,6 +8,66 @@
 // 'test/spec/**/*.js'
 
 var eport = require('eport');
+var fse = require('fs-extra');
+var os = require('os');
+var path = require('path');
+
+/**
+ * 获取本地IP地址
+ * @return {Array} IP地址
+ */
+function getLocalIP() {
+
+  var ifaces = os.networkInterfaces();
+
+  function matchIp (details) {
+    if (details.family === 'IPv4') {
+      ip = details.address;
+    }
+  }
+
+  for (var dev in ifaces) {
+    if (dev.indexOf('eth0') !== -1 || dev.indexOf('en0') !== -1) {
+
+      // 找到eth0和eth1分别的ip
+      var ip = null;
+
+      ifaces[dev].forEach(matchIp);
+
+      return ip;
+    }
+  }
+}
+
+/**
+ * 启用Restfull支持
+ * @param  {[type]} dir     [description]
+ * @param  {[type]} options [description]
+ * @return {[type]}         [description]
+ */
+function enableRest (dir, options) {
+
+  var restSupported = ['POST', 'PUT', 'DELETE'];
+
+  /**
+   * 让预览服务器支持REST接口的 POST / PUT / DELETE 方法
+   * @param  {Object}   req  HTTP request Object.
+   * @param  {Object}   res  HTTP responce object.
+   * @param  {Function} next
+   * @return {Object}        Express 中间件
+   */
+  return function(req, res, next) {
+    if (restSupported.indexOf(req.method.toUpperCase()) !== -1) {
+
+      var filepath = path.join(options.base[0], dir, req.url.split('?')[0]);
+
+      if (fse.existsSync(filepath) && fse.statSync(filepath).isFile()) {
+        res.end(fse.readFileSync(filepath));
+      }
+    }
+    return next();
+  };
+}
 
 module.exports = function (grunt) {
 
@@ -70,18 +130,23 @@ module.exports = function (grunt) {
       options: {
         port: 9000,
         // Change this to '0.0.0.0' to access the server from outside.
-        hostname: 'localhost',
+        hostname: '0.0.0.0',
         livereload: 35730
       },
       livereload: {
         options: {
           open: true,
-          middleware: function (connect) {
+          middleware: function (connect, options) {
             return [
+              enableRest('./app', options),
               connect.static('.tmp'),
               connect().use(
                 '/bower_components',
                 connect.static('./bower_components')
+              ),
+              connect().use(
+                '/font',
+                connect.static('./bower_components/materialize/font')
               ),
               connect().use(
                 '/app/styles',
@@ -179,6 +244,12 @@ module.exports = function (grunt) {
 
     // Automatically inject Bower components into the app
     wiredep: {
+      options:{
+        exclude: [
+          'bower_components/materialize/bin/materialize.css',
+          'bower_components/materialize/bin/materialize.js'
+        ]
+      },
       app: {
         src: ['<%= yeoman.app %>/index.html'],
         ignorePath:  /\.\.\//
@@ -390,6 +461,11 @@ module.exports = function (grunt) {
           cwd: '.',
           src: 'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*',
           dest: '<%= yeoman.dist %>'
+        }, {
+          expand: true,
+          cwd: './bower_components/materialize/',
+          src: 'bower_components/materialize/fonts/material-design-icons/*',
+          dest: '<%= yeoman.dist %>'
         }]
       },
       styles: {
@@ -454,6 +530,11 @@ module.exports = function (grunt) {
 
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
+
+    grunt.config.set('connect.options.hostname', getLocalIP() || '0.0.0.0');
+    if (grunt.option('ip')) {
+    }
+
     if (target === 'dist') {
       return grunt.task.run(['build', 'connect:dist:keepalive']);
     }
@@ -492,7 +573,7 @@ module.exports = function (grunt) {
     'concat',
     'ngAnnotate',
     'copy:dist',
-    'cdnify',
+    //'cdnify',
     'cssmin',
     'uglify',
     'filerev',

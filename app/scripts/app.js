@@ -15,22 +15,11 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch',
-    'ngMaterial',
-    'ngMdIcons'
+    'ngTouch'
   ])
 
-  .config(function($mdThemingProvider) {
-    var neonRedMap = $mdThemingProvider.extendPalette('deep-orange', {
-      //'500': '#FF590D'
-    });
-
-    $mdThemingProvider.definePalette('neonRed', neonRedMap);
-    $mdThemingProvider.theme('default')
-      .primaryPalette('neonRed');
-  })
-
   .config(function ($routeProvider) {
+
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',

@@ -8,65 +8,161 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
     <link rel="stylesheet" href="bower_components/animate.css/animate.css" />
-    <link rel="stylesheet" href="bower_components/animate.3d/dist/animate.3d.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="qiaobaoApp">
+  <body ng-app="qiaobaoApp" ng-controller="MainCtrl">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <div layout="column" layout-fill>
-      <md-toolbar class="md-default-theme">
-        <div class="md-toolbar-tools">
-          <md-button class="md-icon-button" aria-label="Settings">
-            <ng-md-icon icon="radio_button_on" size="28"></ng-md-icon>
-          </md-button>
-          <h2 class="page-title" flex>
-            <span>巧宝点餐</span>
-          </h2>
-          <md-button class="md-button" aria-label="Favorite">
-            <ng-md-icon icon="favorite" size="28" style="fill: greenyellow;"></ng-md-icon>
-            我的菜单
-          </md-button>
-        </div>
-      </md-toolbar>
-      <md-toolbar ng-include="'views/sub-toolbar.html'" class="md-default-theme md-hue-2" md-scroll-shrink></md-toolbar>
-      <md-content>
-        <div ng-view=""></div>
-      </md-content>
+    <div id="loading" class="preloader-wrapper small">
+      <div class="spinner-layer spinner-blue-only">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+      </div>
     </div>
 
-    <!-- build:js(.) scripts/vendor.js -->
-    <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js"></script>
-    <script src="bower_components/angular-animate/angular-animate.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/angular-touch/angular-touch.js"></script>
-    <script src="bower_components/angular-aria/angular-aria.js"></script>
-    <script src="bower_components/angular-material/angular-material.js"></script>
-    <script src="bower_components/svg-morpheus/compile/minified/svg-morpheus.js"></script>
-    <script src="bower_components/angular-material-icons/angular-material-icons.min.js"></script>
-    <!-- endbower -->
+    <!-- 顶部固定导航栏 -->
+    <div class="navbar-fixed animated slideInDown">
+      <nav class="deep-orange">
+        <div class="nav-wrapper">
+          <ul id="logo" class="left">
+            <li><a class="waves-effect waves-light toggle-sidebar" data-activates="slide-out"><i class="mdi-navigation-menu left"></i>菜单</a></li>
+          </ul>
+          <a class="brand-logo center">巧宝点餐</a>
+          <ul id="nav-mobile" class="right">
+            <li><a class="waves-effect waves-light dropdown-button" data-activates="sort-options">排序<i class="mdi-navigation-arrow-drop-down right"></i></a></li>
+            <li><a class="waves-effect waves-light"><i class="mdi-action-perm-identity left"></i></a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <!-- 菜单分类 -->
+    <ul ng-controller="SubmenuCtrl" id="slide-out" class="side-nav left" style="left: -250px;">
+      <li ng-repeat="menu in menus">
+        <a ng-click="queryFoods(menu.menu_id); hideSidebar();">
+          <span ng-bind="menu.menu_name"></span>
+          <span ng-bind="menu.foods_number" class="badge"></span>
+        </a>
+      </li>
+    </ul>
+
+    <!-- 排序选项 -->
+    <div id="sort-options" class="dropdown-content">
+      <ul class="animated">
+        <li class="divider"></li>
+        <li><a ng-click="sortFoods('sales', 'desc')"><i class="left mdi-editor-insert-chart"></i>销量从高到低</a></li>
+        <li><a ng-click="sortFoods('sales', 'asc')"><i class="left mdi-editor-insert-chart"></i>销量从低到高</a></li>
+        <li><a ng-click="sortFoods('stared', 'desc')"><i class="left mdi-action-star-rate"></i>评价从好到差</a></li>
+        <li><a ng-click="sortFoods('stared', 'asc')"><i class="left mdi-action-star-rate"></i>评价从差到好</a></li>
+        <li><a ng-click="sortFoods('food_name', 'desc')"><i class="left mdi-maps-local-florist"></i>按菜品名称正序排列</a></li>
+        <li><a ng-click="sortFoods('food_name', 'asc')"><i class="left mdi-maps-local-florist"></i>按菜品名称倒序排列</a></li>
+      </ul>
+    </div>
+
+    <div class="content" ng-view></div>
+
+    <footer class="navbar-fixed">
+      <nav class="row deep-orange animated slideInUp">
+        <div class="col s3">
+          <a class="waves-effect btn-large btn-flat waves-light deep-orange">
+            <i class="mdi-action-home medium"></i>
+            <span>首页</span>
+          </a>
+        </div>
+        <div class="col s3">
+          <a class="waves-effect btn-large btn-flat waves-light deep-orange disabled">
+            <i class="mdi-maps-restaurant-menu medium"></i>
+            <span>我的菜单</span>
+          </a>
+        </div>
+        <div class="col s3">
+          <a class="waves-effect btn-large btn-flat waves-light deep-orange disabled">
+            <i class="mdi-social-notifications-none medium"></i>
+            <span>叫服务员</span>
+          </a>
+        </div>
+        <div class="col s3">
+          <a class="waves-effect btn-large btn-flat waves-light deep-orange disabled">
+            <i class="mdi-action-search medium"></i>
+            <span>搜索</span>
+          </a>
+        </div>
+      </nav>
+    </footer>
+
+      <!-- build:js(.) scripts/vendor.js -->
+      <!-- bower:js -->
+      <script src="bower_components/jquery/dist/jquery.js"></script>
+      <script src="bower_components/angular/angular.js"></script>
+      <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+      <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+      <script src="bower_components/angular-animate/angular-animate.js"></script>
+      <script src="bower_components/angular-resource/angular-resource.js"></script>
+      <script src="bower_components/angular-route/angular-route.js"></script>
+      <script src="bower_components/angular-touch/angular-touch.js"></script>
+      <script src="bower_components/materialize/js/jquery.easing.1.3.js"></script>
+      <script src="bower_components/materialize/js/animation.js"></script>
+      <script src="bower_components/materialize/js/velocity.min.js"></script>
+      <script src="bower_components/materialize/js/hammer.min.js"></script>
+      <script src="bower_components/materialize/js/jquery.hammer.js"></script>
+      <script src="bower_components/materialize/js/global.js"></script>
+      <script src="bower_components/materialize/js/collapsible.js"></script>
+      <script src="bower_components/materialize/js/dropdown.js"></script>
+      <script src="bower_components/materialize/js/leanModal.js"></script>
+      <script src="bower_components/materialize/js/materialbox.js"></script>
+      <script src="bower_components/materialize/js/parallax.js"></script>
+      <script src="bower_components/materialize/js/tabs.js"></script>
+      <script src="bower_components/materialize/js/tooltip.js"></script>
+      <script src="bower_components/materialize/js/waves.js"></script>
+      <script src="bower_components/materialize/js/toasts.js"></script>
+      <script src="bower_components/materialize/js/sideNav.js"></script>
+      <script src="bower_components/materialize/js/scrollspy.js"></script>
+      <script src="bower_components/materialize/js/forms.js"></script>
+      <script src="bower_components/materialize/js/slider.js"></script>
+      <script src="bower_components/materialize/js/cards.js"></script>
+      <script src="bower_components/materialize/js/pushpin.js"></script>
+      <script src="bower_components/materialize/js/buttons.js"></script>
+      <script src="bower_components/materialize/js/transitions.js"></script>
+      <script src="bower_components/materialize/js/scrollFire.js"></script>
+      <script src="bower_components/materialize/js/character_counter.js"></script>
+      <!-- endbower -->
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
+        <script src="scripts/service.js"></script>
         <script src="scripts/controllers/submenu.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
         <!-- endbuild -->
+
+    <script type="text/javascript">
+      var CONFIG = {
+        orderField: 'sales',   // 排序字段
+        orderType: 'desc' // 排序类型，desc 或 asc
+      };
+
+      var QIAOBAO_APIS = {
+        'categoreis': 'mocks/categoreis.json', // 加载菜单类别的地址，数据格式从参考 “mocks/categories.json”.
+        'foods': 'mocks/foods.json' // 菜单类别
+      };
+
+      $('.toggle-sidebar').sideNav();
+
+    </script>
+
+    <script src="http://192.168.8.2:8081/target/target-script-min.js#anonymous"></script>
 </body>
 </html>

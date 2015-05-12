@@ -1,10 +1,47 @@
 $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 // bower:scss
-@import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
-@import "animate.3d/scss/animate.3d.scss";
 // endbower
 
-@import "common";
+@import "materialize-min";
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  font-size: 13px;
+}
+
+nav {
+  ul {
+    a {
+      font-size: 1.3rem;
+      padding: 0 10px;
+
+      i.left {
+        margin-right: 2px;
+      }
+
+      i.right {
+        margin-left: 0px;
+      }
+    }
+
+    [data-activates="sort-options"] {
+        padding-right: 0;
+        font-size: 1rem;
+    }
+  }
+
+  .brand-logo {
+    font-size: 1.5rem;
+  }
+
+  ul.right {
+    li {
+      margin-left: -4px;
+    }
+  }
+}
 
 .browsehappy {
   margin: 0.2em 0;
@@ -19,8 +56,135 @@ h2.page-title {
   text-align: center;
 }
 
+.side-nav {
+  position: absolute !important;
+  top: 56px;
+  left: 0px;
+  bottom:0px;
+  overflow: auto;
+
+  a {
+    height: 48px;
+    line-height: 48px;
+  }
+}
+
+#sort-options {
+  width: auto !important;
+  right: 0px !important;
+  top: 56px !important;
+  left: auto !important;
+  z-index: 2;
+}
+
+#loading {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  margin-left:-18px;
+}
+
+.content {
+  position: absolute;
+  top: 56px;
+  bottom: 56px;
+  left: 0px;
+  right: 0px;
+  overflow: auto;
+
+  .food-card {
+    margin: 1rem;
+
+    .row {
+      margin-bottom: 0;
+    }
+
+    &:nth-child(1) { animation-duration: 0.1s; }
+    &:nth-child(2) { animation-duration: 0.3s; }
+    &:nth-child(3) { animation-duration: 0.5s; }
+    &:nth-child(4) { animation-duration: 0.7s; }
+    &:nth-child(5) { animation-duration: 0.9s; }
+
+    .card-image {
+      padding: 0;
+    }
+  }
+}
+
+footer {
+
+  &.navbar-fixed {
+    position: fixed;
+    top: auto;
+    bottom: 0px;
+
+    .btn-large i {
+      font-size: 2.4rem;
+      line-height: 3.2rem;
+    }
+
+    .col {
+      padding: 0;
+
+      a {
+        display: block;
+        padding: 0 0.2em;
+        line-height: 12px;
+        font-size: 0.8rem;
+        color: #fff;
+
+        span {
+          display: block;
+          margin-top: -4px;
+        }
+
+      }
+    }
+  }
+}
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
 
 }
+
+@media only screen and (min-width: 601px) {
+
+  .side-nav {
+    top: 64px;
+  }
+
+  #sort-options {
+    top: 64px !important;
+  }
+
+  #sort-options {
+    li {
+      i {
+        height: auto;
+        line-height: inherit;
+      }
+    }
+  }
+
+  .content {
+    top: 64px;
+    bottom: 64px;
+  }
+
+  footer {
+
+    &.navbar-fixed {
+      .btn-large {
+        height: 64px;
+        line-height: 64px;
+
+        i {
+          font-size: 3rem;
+          line-height: 4rem;
+        }
+      }
+    }
+  }
+}
+

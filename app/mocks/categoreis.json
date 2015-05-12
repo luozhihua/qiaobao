@@ -1,0 +1,27 @@
+{
+    "success": true,
+    "data": [
+        {
+            "menu_id": "xiangcai",
+            "menu_name": "湘菜"
+        }, {
+            "menu_id": "yucai",
+            "menu_name": "豫菜"
+        }, {
+            "menu_id": "chuancai",
+            "menu_name": "川菜"
+        }, {
+            "menu_id": "yuecai",
+            "menu_name": "粤菜"
+        }, {
+            "menu_id": "liangcai",
+            "menu_name": "凉菜"
+        }, {
+            "menu_id": "jiushui",
+            "menu_name": "酒水"
+        }, {
+            "menu_id": "yinliang",
+            "menu_name": "饮料"
+        }
+    ]
+}
