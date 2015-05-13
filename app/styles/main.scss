@@ -85,6 +85,11 @@ h2.page-title {
 }
 
 .content {
+
+  .card .card-image img {
+    display: block;
+  }
+
   position: absolute;
   top: 56px;
   bottom: 56px;
