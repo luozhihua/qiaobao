@@ -1,1 +1,13 @@
-<div class="food-card card animated bounceIn" ng-repeat="food in foods"> <div class="row"> <div class="col s5 card-image"> <img ng-src="{{ food.picture_path }}"> <!--<span class="card-title" ng-bind="food.menu_name"></span>--> </div> <div class="col s7 card-content"> <div class="row"> <div class="col s12" ng-bind="food.menu_name"></div> </div> <div class="row"> <div class="col s12"><em>￥24</em> / 原价：<i>￥32</i></div> </div> <div class="row"> <div class="col s12"><em>￥24</em> / <i>￥32</i></div> </div> </div> </div> <div class="card-action" style="display:none"> <a href="#">-</a> <a href="#">+</a> </div> </div>
+<!--
+  "picture_path": "images/foods/01.jpg",
+  "big_picture_path": "images/foods/01.jpg",
+  "menu_id": "food-xxxx-0001",
+  "menu_name": "干锅茶树菇",
+  "price_real": 25,
+  "price_favorrable": 18,
+  "menu_order": 1,
+  "menu_unit": "份",
+  "sail_num": 1209,
+  "comment_score": 4,
+  "content": "美味，酸爽，好吃的不得了！"
+--> <div class="food-card card animated slideInUp" ng-repeat="food in foods"> <div class="row"> <div class="col s5 card-image"> <img ng-src="{{ food.picture_path }}"> <!--<span class="card-title" ng-bind="food.menu_name"></span>--> </div> <div class="col s7 card-content"> <div class="row"> <div class="col s12" ng-bind="food.menu_name"></div> </div> <div class="row"> <div class="col s12"><em ng-bind-template="￥{{food.price_favorrable}}"></em> / 原价：<i ng-bind-template="￥{{ food.price_real }}">￥32</i></div> </div> <div class="row"> <div class="col s12"><em>￥24</em> / <i>￥32</i></div> </div> </div> </div> <div class="card-action" style="display:none"> <a href="#">-</a> <a href="#">+</a> </div> </div>
