@@ -276,6 +276,19 @@ module.exports = function (grunt) {
       }
     },
 
+    'mockjs_detach': {
+      options: {
+        begin: '<!-- mockjs -->', // default to: <!-- mockjs -->
+        end: '<!-- endmockjs -->' // default to: <!-- endmockjs -->
+      },
+      app: {
+        expand: true,
+        cwd: './dist',
+        src: '{,*/}*.html',
+        dest: './dist'
+      },
+    },
+
     // Compiles Sass to CSS and generates necessary files if requested
     compass: {
       options: {
@@ -579,6 +592,7 @@ module.exports = function (grunt) {
     'uglify',
     'filerev',
     'usemin',
+    'mockjs_detach',
     'htmlmin'
   ]);
 
