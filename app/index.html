@@ -14,6 +14,40 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
+
+
+    <script type="text/javascript">
+
+      /**
+       * 配置信息
+       * @type {Object}
+       *
+       */
+      var CONFIG = {
+
+        // 排揎选项
+        orderByList: [
+          {key: 'sales',     type: 'desc',     text: '销量高到低'},
+          {key: 'sales',     type: 'asc',      text: '销量低到高'},
+          {key: 'stars',     type: 'desc',     text: '评价高到低'},
+          {key: 'stars',     type: 'asc',      text: '评价低到高'},
+          {key: 'name',      type: 'desc',     text: '菜名正序'},
+          {key: 'name',      type: 'asc',      text: '菜名倒序'}
+        ],
+
+        // 默认排序字段
+        orderBy: 'sales',
+
+        // 默认排序类型，desc 或 asc
+        orderByType: 'desc',
+
+        apis: {
+          'categoreis': 'mocks/categoreis.json', // 加载菜单类别的地址，数据格式从参考 “mocks/categories.json”.
+          'foods': 'mocks/foods.json' // 菜单类别
+        }
+      };
+
+    </script>
   </head>
   <body ng-app="qiaobaoApp" ng-controller="MainCtrl">
     <!--[if lt IE 7]>
@@ -49,9 +83,9 @@
     </div>
 
     <!-- 菜单分类 -->
-    <ul ng-controller="SubmenuCtrl" id="slide-out" class="side-nav left" style="left: -250px;">
+    <ul id="slide-out" class="side-nav left" style="left: -250px;">
       <li ng-repeat="menu in menus">
-        <a ng-click="queryFoods(menu.menu_id); hideSidebar();">
+        <a ng-click="hideSidebar();" ng-href="#/menu/{{menu.menu_id}}">
           <span ng-bind="menu.menu_name"></span>
           <span ng-bind="menu.foods_number" class="badge"></span>
         </a>
@@ -62,19 +96,24 @@
     <div id="sort-options" class="dropdown-content">
       <ul class="animated">
         <li class="divider"></li>
-        <li><a ng-click="sortFoods('sales', 'desc')"><i class="left mdi-editor-insert-chart"></i>销量从高到低</a></li>
-        <li><a ng-click="sortFoods('sales', 'asc')"><i class="left mdi-editor-insert-chart"></i>销量从低到高</a></li>
-        <li><a ng-click="sortFoods('stared', 'desc')"><i class="left mdi-action-star-rate"></i>评价从好到差</a></li>
-        <li><a ng-click="sortFoods('stared', 'asc')"><i class="left mdi-action-star-rate"></i>评价从差到好</a></li>
-        <li><a ng-click="sortFoods('food_name', 'desc')"><i class="left mdi-maps-local-florist"></i>按菜品名称正序排列</a></li>
-        <li><a ng-click="sortFoods('food_name', 'asc')"><i class="left mdi-maps-local-florist"></i>按菜品名称倒序排列</a></li>
+        <li ng-repeat="orderBy in orderByList">
+          <a ng-href="#/menu/{{ $params.menuId }}/sort/{{ orderBy.key }}/{{ orderBy.type }}"><span ng-bind="orderBy.text"></span></a>
+        </li>
+        <!--
+        <li><a ng-href="#/menu/{{ $params.menuId }}/sort/sales/desc"><i class="left mdi-editor-insert-chart"></i>销量从高到低</a></li>
+        <li><a ng-href="#/menu/{{ $params.menuId }}/sort/salse/asc"><i class="left mdi-editor-insert-chart"></i>销量从低到高</a></li>
+        <li><a ng-href="#/menu/{{ $params.menuId }}/sort/star/desc"><i class="left mdi-action-star-rate"></i>评价从好到差</a></li>
+        <li><a ng-href="#/menu/{{ $params.menuId }}/sort/star/asc"><i class="left mdi-action-star-rate"></i>评价从差到好</a></li>
+        <li><a ng-href="#/menu/{{ $params.menuId }}/sort/name/desc"><i class="left mdi-maps-local-florist"></i>按菜品名称正序排列</a></li>
+        <li><a ng-href="#/menu/{{ $params.menuId }}/sort/name/asc"><i class="left mdi-maps-local-florist"></i>按菜品名称倒序排列</a></li>
+        -->
       </ul>
     </div>
 
-    <div class="content" ng-view></div>
+    <div class="content e3d" ng-view></div>
 
-    <footer class="navbar-fixed">
-      <nav class="row deep-orange animated slideInUp">
+    <footer class="navbar-fixed  deep-orange">
+      <nav class="row animated slideInUp">
         <div class="col s3">
           <a class="waves-effect btn-large btn-flat waves-light deep-orange">
             <i class="mdi-action-home medium"></i>
@@ -101,6 +140,20 @@
         </div>
       </nav>
     </footer>
+
+
+    <!-- 菜品详情 -->
+    <div id="foodDetailsModal" class="modal modal-fixed-footer animated">
+      <div class="modal-content">
+        <h4>{{ activeFood.menu_name }}</h4>
+        <div><img alt="{{ activeFood.menu_name }}" ng-src="{{ activeFood.big_picture_path }}"/></div>
+        <p>{{ activeFood.content }}</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+      </div>
+    </div>
+
 
       <!-- build:js(.) scripts/vendor.js -->
       <!-- bower:js -->
@@ -143,28 +196,14 @@
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/service.js"></script>
-        <script src="scripts/controllers/submenu.js"></script>
         <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/menus.js"></script>
         <script src="scripts/controllers/about.js"></script>
         <!-- endbuild -->
 
         <!-- mockjs -->
-        <script src="http://192.168.8.2:8081/target/target-script-min.js#anonymous"></script>
+        <!-- <script src="http://192.168.8.2:8081/target/target-script-min.js#anonymous"></script> -->
         <!-- endmockjs -->
 
-    <script type="text/javascript">
-      var CONFIG = {
-        orderField: 'sales',   // 排序字段
-        orderType: 'desc' // 排序类型，desc 或 asc
-      };
-
-      var QIAOBAO_APIS = {
-        'categoreis': 'mocks/categoreis.json', // 加载菜单类别的地址，数据格式从参考 “mocks/categories.json”.
-        'foods': 'mocks/foods.json' // 菜单类别
-      };
-
-      $('.toggle-sidebar').sideNav();
-
-    </script>
 </body>
 </html>

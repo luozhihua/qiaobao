@@ -5,17 +5,29 @@ angular.module('qiaobaoApp')
 .factory('qiaobaoService', ['$http', function($http) {
 
   var factory = {},
-      categoriesURI = QIAOBAO_APIS.categoreis,
-      foodsURI = QIAOBAO_APIS.foods;
+      categoriesURI = CONFIG.apis.categoreis,
+      foodsURI = CONFIG.apis.foods;
 
   angular.extend(factory, {
 
-    loadCatgories: function() {
+    /**
+     * 请求模型
+     *
+     */
+    FoodQueryModel : function (params) {
+      $.extend(this, {
+        'order_field'  : CONFIG.orderField,
+        'order_type'   : CONFIG.orderType,
+        'menu_type_id' : null
+      }, params);
+    },
+
+    loadCategories: function() {
 
       return $http.get(categoriesURI);
     },
 
-    queryFoods: function(params) {
+    queryFood: function(params) {
 
       return $http.get(foodsURI, params);
     }

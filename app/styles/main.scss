@@ -3,6 +3,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 // endbower
 
 @import "materialize-min";
+@import "animate";
 
 html, body {
   height: 100%;
@@ -98,18 +99,62 @@ h2.page-title {
   overflow: auto;
 
   .food-card {
-    margin: 1rem;
-
-    .row {
-      margin-bottom: 0;
-    }
+    position: relative;
+    padding: 2px;
 
     @for $i from 0 through 9 {
       &:nth-child(#{$i}) { animation-duration: 0.25s * $i; }
     }
 
-    .card-image {
-      padding: 0;
+    .card {
+      margin: 0;
+      min-height: 180px;
+      background-repeat: no-repeat;
+      background-size: cover;
+
+      .card-image {
+        padding: 0;
+
+        .card-title {
+          padding: 10px;
+          font-size: 14px;
+        }
+      }
+    }
+
+    .card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: auto;
+      margin: 0px;
+      padding: 10px;
+      display: none;
+      background-color: #fff;
+
+      h2 {
+        font-size: 16px;
+        margin: 0;
+        padding: 0;
+        white-space: nowrap;
+        word-break: keep-all;
+      }
+    }
+
+    &.turn {
+
+      .card {
+        animation-name: turnOut;
+        animation-duration: 0.3s !important;
+      }
+
+      .card-back {
+        display: block;
+        z-index: 2;
+        animation-name: turnIn;
+      }
     }
   }
 }
@@ -120,6 +165,14 @@ footer {
     position: fixed;
     top: auto;
     bottom: 0px;
+    left:0;
+    right:0;
+
+    nav {
+      position: static;
+      max-width: 480px;
+      margin: auto;
+    }
 
     .btn-large i {
       font-size: 2.4rem;

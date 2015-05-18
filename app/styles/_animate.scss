@@ -1,0 +1,74 @@
+.e3d {
+  -ms-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+
+  perspective: 200px;
+  perspective-origin: center;
+}
+
+
+/**
+ * enable 3D mode for animations
+ * @class .animated
+ */
+.animated {
+  transform-style: preserve-3d;
+  transition: transform;
+  animation-duration:1s;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+  animation-play-state: running;
+}
+
+.animated {
+  &.infinite {
+    animation-iteration-count: infinite
+  }
+}
+
+
+
+@keyframes turnIn {
+    0% {
+        opacity: 0;
+        transform: rotateY(180deg) scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: rotateY(90deg) scale(0.3);
+    }
+    100% {
+        opacity: 1;
+        transform: rotateY(0deg);
+    }
+}
+
+.turnIn {
+    transform-origin: center;
+    animation-name: turnIn;
+}
+
+
+@keyframes turnOut {
+    0% {
+        opacity: 1;
+        transform: rotateY(0deg);
+    }
+    50% {
+        opacity: 0.5;
+        transform: rotateY(-90deg) scale(0.3);
+    }
+    99% {
+        opacity: 0;
+        transform: rotateY(-180deg) scale(1);
+    }
+    100% {
+        display: none;
+    }
+}
+
+.turnOut {
+    transform-origin: center;
+    animation-name: turnOut;
+}
