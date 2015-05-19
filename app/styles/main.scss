@@ -114,9 +114,48 @@ h2.page-title {
 
       .card-image {
         padding: 0;
+      }
 
-        .card-title {
-          padding: 10px;
+      .tag {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 48px;
+        margin: 10px;
+        max-width: 95%;
+        background-color: rgba(0,0,0,0.1);
+        text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+        white-space: nowrap;
+        word-break: keep-all;
+        overflow: hidden;
+      }
+
+      .card-title {
+        text-overflow: ellipsis;
+        font-size: 14px;
+        float: left;
+      }
+
+      .card-amount {
+        float: right;
+        color: #fff;
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+
+      .card-price {
+        position: absolute;
+        bottom: 2px;
+        right: 2px;
+        left: auto;
+        top: auto;
+        font-size: 24px;
+        color: #fff;
+        padding: 0px 10px;
+        margin: 4px;
+
+        del {
+          font-style: italic;
           font-size: 14px;
         }
       }
@@ -135,9 +174,10 @@ h2.page-title {
       background-color: #fff;
 
       h2 {
+        line-height: 24px;
         font-size: 16px;
-        margin: 0;
-        padding: 0;
+        margin: 0 0 10px 0;
+        padding: 0 0.75rem;
         white-space: nowrap;
         word-break: keep-all;
       }
@@ -147,7 +187,7 @@ h2.page-title {
 
       .card {
         animation-name: turnOut;
-        animation-duration: 0.3s !important;
+        animation-duration: 0.5s !important;
       }
 
       .card-back {
@@ -155,6 +195,17 @@ h2.page-title {
         z-index: 2;
         animation-name: turnIn;
       }
+    }
+  }
+}
+
+.food-details {
+
+  .food-picture {
+    max-width: 100%;
+
+    img {
+      max-width: 100%;
     }
   }
 }

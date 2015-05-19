@@ -43,7 +43,8 @@
 
         apis: {
           'categoreis': 'mocks/categoreis.json', // 加载菜单类别的地址，数据格式从参考 “mocks/categories.json”.
-          'foods': 'mocks/foods.json' // 菜单类别
+          'foods': 'mocks/foods.json', // 菜单类别
+          'myMenu': 'mocks/my-menu.json' // 我的菜单
         }
       };
 
@@ -68,7 +69,7 @@
 
     <!-- 顶部固定导航栏 -->
     <div class="navbar-fixed animated slideInDown">
-      <nav class="deep-orange">
+      <nav class="green lighten-1">
         <div class="nav-wrapper">
           <ul id="logo" class="left">
             <li><a class="waves-effect waves-light toggle-sidebar" data-activates="slide-out"><i class="mdi-navigation-menu left"></i>菜单</a></li>
@@ -110,30 +111,30 @@
       </ul>
     </div>
 
-    <div class="content e3d" ng-view></div>
+    <div class="content" ng-view></div>
 
-    <footer class="navbar-fixed  deep-orange">
+    <footer class="navbar-fixed  green lighten-1">
       <nav class="row animated slideInUp">
         <div class="col s3">
-          <a class="waves-effect btn-large btn-flat waves-light deep-orange">
+          <a class="waves-effect btn-large btn-flat waves-light green lighten-1" href="#/">
             <i class="mdi-action-home medium"></i>
             <span>首页</span>
           </a>
         </div>
         <div class="col s3">
-          <a class="waves-effect btn-large btn-flat waves-light deep-orange disabled">
+          <a class="waves-effect btn-large btn-flat waves-light green lighten-1 disabled" href="#/mymenu">
             <i class="mdi-maps-restaurant-menu medium"></i>
             <span>我的菜单</span>
           </a>
         </div>
         <div class="col s3">
-          <a class="waves-effect btn-large btn-flat waves-light deep-orange disabled">
+          <a class="waves-effect btn-large btn-flat waves-light green lighten-1 disabled">
             <i class="mdi-social-notifications-none medium"></i>
             <span>叫服务员</span>
           </a>
         </div>
         <div class="col s3">
-          <a class="waves-effect btn-large btn-flat waves-light deep-orange disabled">
+          <a class="waves-effect btn-large btn-flat waves-light green lighten-1 disabled">
             <i class="mdi-action-search medium"></i>
             <span>搜索</span>
           </a>
@@ -143,14 +144,14 @@
 
 
     <!-- 菜品详情 -->
-    <div id="foodDetailsModal" class="modal modal-fixed-footer animated">
+    <div id="foodDetailsModal" class="modal food-details hmodal-fixed-footer animated">
       <div class="modal-content">
         <h4>{{ activeFood.menu_name }}</h4>
-        <div><img alt="{{ activeFood.menu_name }}" ng-src="{{ activeFood.big_picture_path }}"/></div>
+        <div class="food-picture"><img alt="{{ activeFood.menu_name }}" ng-src="{{ activeFood.big_picture_path }}"/></div>
         <p>{{ activeFood.content }}</p>
       </div>
       <div class="modal-footer">
-        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">关闭</a>
       </div>
     </div>
 
@@ -198,6 +199,7 @@
         <script src="scripts/service.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/menus.js"></script>
+        <script src="scripts/controllers/my-menu.js"></script>
         <script src="scripts/controllers/about.js"></script>
         <!-- endbuild -->
 

@@ -21,6 +21,10 @@ angular
   .config(['$routeProvider', function ($routeProvider) {
 
     $routeProvider
+      .when('/mymenu', {
+        templateUrl: 'views/my-menu.html',
+        controller: 'MyMenuCtrl'
+      })
       .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
@@ -32,14 +36,11 @@ angular
       .when('/menu/:menuId/sort/:orderBy/:orderByType', {
         templateUrl: 'views/food.html',
         controller: 'MenusCtrl'
-      })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
       });
+
+
+    $routeProvider.otherwise({redirectTo: '/'});
+
   }])
   .run(['$rootScope', function($root) {
       $root.orderByList = CONFIG.orderByList;

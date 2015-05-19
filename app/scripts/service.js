@@ -30,6 +30,11 @@ angular.module('qiaobaoApp')
     queryFood: function(params) {
 
       return $http.get(foodsURI, params);
+    },
+
+    queryMymenu: function(params) {
+
+      return $http.get(CONFIG.apis.myMenu, params);
     }
 
   });

@@ -18,6 +18,7 @@ function ($root,        $scope,    $route,   $location,   $params,        svc) {
 
     if (res.success) {
       $root.menus = res.data;
+      
       $location.url('/menu/'+ res.data[0][menuIdField]);
     }
   });
